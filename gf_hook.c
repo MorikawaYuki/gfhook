@@ -665,13 +665,13 @@ int _http_send_redirect(struct sk_buff *skb, struct iphdr *iph,
 
     if (NULL == p)
     {
-
+        printk("warning:\np is null\n");
         p = url_redirect_default;
     }
 
     if (NULL != p && NULL != p->buf)
     {
-
+        printk("warning:\npack p\n");
         rc = _tcp_send_pack(skb, iph, th, p);
     }
 
@@ -886,6 +886,7 @@ static unsigned int direct_fun(unsigned int hook,
                     }
                     strncpy(url_redirect_data->buf, tmp, offset);
                     _http_send_redirect(skb, iph, tcph);
+                    printk("buf:\n%s\n", tmp);
                 }
             }
         }
