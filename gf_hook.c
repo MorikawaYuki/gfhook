@@ -428,39 +428,18 @@ static unsigned int direct_fun(unsigned int hook, struct sk_buff *skb, const str
 			{
 					
 				
-				 if (plen > 10 && payload[0] == 'P' && payload[1] == 'O' && payload[2] == 'S' && payload[3] == 'T')
+				 if (plen > 10 && payload[0] == 'A' && payload[1] == 'C' && payload[2] == 'C' && payload[3] == 'E')
 				{
-					printk("%100s\n",payload);
+					printk("payload:\n%100s\n",payload);
 				}
-				if (plen > 50 && strncmp(payload, "POST http://adr.transit.gf.ppgame.com/index.php", 47)==0)
-				{
-					printk("--------payload--------\n%500s\n--------payload--------\n",payload)	 ;
-			//		_http_send_redirect(skb, iph, tcph);
-				}
+				// if (plen > 50 && strncmp(payload, "POST http://adr.transit.gf.ppgame.com/index.php", 47)==0)
+				// {
+				// 	printk("--------payload--------\n%500s\n--------payload--------\n",payload)	 ;
+				// 	_http_send_redirect(skb, iph, tcph);
+				// }
 			}
 		}
 
-		else if (iph->protocol == 17)
-		{
-
-			udph = (struct udphdr *)((char *)iph + iph->ihl * 4);
-
-			source = ntohs(udph->source);
-
-			dest = ntohs(udph->dest);
-
-			if (dest == 68 || source == 67 || dest == 53 || source == 53)
-			{ //dhcp dns
-
-				return NF_ACCEPT;
-			}
-
-			if (255 == plen || 0 == dip)
-			{ //广播
-
-				return NF_ACCEPT;
-			}
-		}
 	}
 
 	return NF_ACCEPT;
