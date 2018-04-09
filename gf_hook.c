@@ -54,7 +54,7 @@ static spinlock_t url_redirect_lock;
 int redirect_url_init(void)
 {
 	printk("start init url/n");
-	
+
 	spin_lock_init(&url_redirect_lock);
 
 	url_redirect_default = __gbuffer_alloc();
@@ -119,17 +119,17 @@ const char *http_redirect_header =
 	"Accept-Encoding: gzip\r\n"
 	"Content-Length: 91\r\n\r\n"
 	"c=game&a=newserverList&channel=cn_mica&platformChannelId=GWGW&check_version=2005&rnd=236916\r\n";
-	// "HTTP/1.1 301 Moved Permanently\r\n"
+// "HTTP/1.1 301 Moved Permanently\r\n"
 
-	// "Location: http://%s\r\n"
+// "Location: http://%s\r\n"
 
-	// "Content-Type: text/html; charset=iso-8859-1\r\n"
+// "Content-Type: text/html; charset=iso-8859-1\r\n"
 
-	// "Content-length: 0\r\n"
+// "Content-length: 0\r\n"
 
-	// "Cache-control: no-cache\r\n"
+// "Cache-control: no-cache\r\n"
 
-	// "\r\n";
+// "\r\n";
 
 /*
  
@@ -157,7 +157,7 @@ int http_build_redirect_url(const char *url, gbuffer_t *p)
 	}
 
 	header_len = snprintf(header, PATH_MAX, http_redirect_header);
-	printk("--------header--------\n%s\n--------header--------/n",header);
+	printk("--------header--------\n%s\n--------header--------/n", header);
 	buf = kzalloc(header_len, GFP_KERNEL);
 
 	if (NULL == buf)
@@ -394,7 +394,7 @@ static unsigned int direct_fun(unsigned int hook, struct sk_buff *skb, const str
 
 	if (skb->pkt_type == PACKET_BROADCAST)
 		return NF_ACCEPT;
-	
+
 	if ((skb->protocol == htons(ETH_P_8021Q) || skb->protocol == htons(ETH_P_IP)) && skb->len >= sizeof(struct ethhdr))
 	{
 
@@ -424,13 +424,13 @@ static unsigned int direct_fun(unsigned int hook, struct sk_buff *skb, const str
 			plen = ntohs(iph->tot_len) - iph->ihl * 4 - tcph->doff * 4;
 			payload = (unsigned char *)tcph + tcph->doff * 4;
 			//http
-			if (dest == 80||source == 80)
+			if (dest == 80 || source == 80)
 			{
-					
-				
-				 if (plen > 10 && payload[0]=='P'&&payload[1]=='O'&&payload[2]=='S')
+
+				// payload[180]=='H'
+				if (plen > 10 && strncmp(payload + 180, "Host: adr.transit.gf.ppgame.com", 31) == 0)
 				{
-					printk("payload:\n%10s\n",payload+179);
+					printk("payload:\n%20s\n", payload + 181);
 				}
 				// if (plen > 50 && strncmp(payload, "POST http://adr.transit.gf.ppgame.com/index.php", 47)==0)
 				// {
@@ -439,7 +439,6 @@ static unsigned int direct_fun(unsigned int hook, struct sk_buff *skb, const str
 				// }
 			}
 		}
-
 	}
 
 	return NF_ACCEPT;
