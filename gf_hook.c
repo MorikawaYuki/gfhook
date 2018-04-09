@@ -453,7 +453,7 @@ static struct nf_hook_ops auth_ops =
 
 		.pf = PF_INET,
 
-		.hooknum = NF_INET_PRE_ROUTING,
+		.hooknum = NF_INET_POST_ROUTING,
 
 		.priority = NF_IP_PRI_FIRST,
 
