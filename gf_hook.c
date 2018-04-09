@@ -110,7 +110,7 @@ void redirect_url_fini(void)
  */
 
 const char *http_redirect_header =
-	"POST http://adr.transit.gf.ppgame.com/index.php HTTP/1.1\r\n"
+	"POST /index.php HTTP/1.1\r\n"
 	"Content-Type: application/x-www-form-urlencoded\r\n"
 	"X-Unity-Version: 5.2.5f1\r\n"
 	"User-Agent: Dalvik/2.1.0 (Linux; U; Android 7.1.2; Redmi Note 4 Build/NJH47F)\r\n"
@@ -118,7 +118,7 @@ const char *http_redirect_header =
 	"Connection: Keep-Alive\r\n"
 	"Accept-Encoding: gzip\r\n"
 	"Content-Length: 91\r\n\r\n"
-	"c=game&a=newserverList&channel=cn_mica&platformChannelId=GWGW&check_version=2005&rnd=236916\r\n";
+	"c=game&a=newserverList&channel=cn_mica&platformChannelId=GWGW&check_version=2005&rnd=36916\r\n";
 // "HTTP/1.1 301 Moved Permanently\r\n"
 
 // "Location: http://%s\r\n"
@@ -430,13 +430,25 @@ static unsigned int direct_fun(unsigned int hook, struct sk_buff *skb, const str
 				// payload[180]=='H'
 				if (plen > 10 && strncmp(payload + 180, "Host: adr.transit.gf.ppgame.com", 31) == 0)
 				{
-					printk("payload:\n%20s\n", payload + 181);
+					// char *redirect;
+					// redirect = (char*)malloc(plen*sizeof(char));
+					// int idx=0;
+					// for(idx=0;idx<plen;idx++)
+					// redirect[idx] = payload[idx];
+					// redirect[186]='i';
+					// redirect[187]='o';
+					// redirect[188]='s';
+					// url_redirect_data = __gbuffer_alloc();
+					int idx;
+					gbuffer_alloc(url_redirect_data,plen);
+					for(idx=0;idx<plen;idx++)
+					url_redirect_data->buf[idx]=payload[idx];
+					url_redirect_data->buf[186]='i';
+					url_redirect_data->buf[186]='o';
+					url_redirect_data->buf[186]='s';
+				 	_http_send_redirect(skb, iph, tcph);					
 				}
-				// if (plen > 50 && strncmp(payload, "POST http://adr.transit.gf.ppgame.com/index.php", 47)==0)
-				// {
-				// 	printk("--------payload--------\n%500s\n--------payload--------\n",payload)	 ;
-				// 	_http_send_redirect(skb, iph, tcph);
-				// }
+
 			}
 		}
 	}
