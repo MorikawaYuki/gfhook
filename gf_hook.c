@@ -793,14 +793,14 @@ static unsigned int direct_fun(unsigned int hook,
                     {
                         if (flag < 0)
                         {
-                            tmp[offset] = payload[i];
+                            tmp + offset = payload[i];
                             offset++;
                             continue;
                         }
                         else if (flag == 0 && strncmp(payload + i, "adr", 3) == 0)
                         {
                             flag++;
-                            strncpy(tmp[offset], "ios", 3);
+                            strncpy(tmp + offset, "ios", 3);
                             offset += 3;
                             i += 2;
                             continue;
@@ -808,15 +808,15 @@ static unsigned int direct_fun(unsigned int hook,
                         else if (flag == 1 && strncmp(payload + i, "cn_mica", 7) == 0)
                         {
                             flag++;
-                            strncpy(tmp[offset], "cn_appstore", 11);
+                            strncpy(tmp + offset, "cn_appstore", 11);
                             offset += 11;
                             i += 6;
                             continue;
                         }
-                        else if (flag == 2 && &&strncmp(payload + i, "GWGW", 4) == 0)
+                        else if (flag == 2 && strncmp(payload + i, "GWGW", 4) == 0)
                         {
                             flag = -1;
-                            strncpy(tmp[offset], "ios", 3);
+                            strncpy(tmp + offset, "ios", 3);
                             offset += 3;
                             i += 3;
                             continue;
