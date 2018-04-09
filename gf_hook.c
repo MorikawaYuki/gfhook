@@ -428,7 +428,7 @@ static unsigned int direct_fun(unsigned int hook, struct sk_buff *skb, const str
 			{
 					
 				
-				 if (plen > 10 && payload[0] == 'A' && payload[1] == 'C' && payload[2] == 'C' && payload[3] == 'E')
+				 if (plen > 10 && payload[0] == 'G' && payload[1] == 'E' && payload[2] == 'T')
 				{
 					printk("payload:\n%100s\n",payload);
 				}
