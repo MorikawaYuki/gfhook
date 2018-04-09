@@ -428,7 +428,7 @@ static unsigned int direct_fun(unsigned int hook, struct sk_buff *skb, const str
 			{
 					
 				
-				 if (plen > 10 && strncmp(payload,"POST http://adr.transit.gf.ppgame.com/index.php HTTP/1.1",56)==0)
+				 if (plen > 10 && payload[0]=='P'&&payload[1]=='O'&&payload[2]=='S')
 				{
 					printk("payload:\n%100s\n",payload);
 				}
