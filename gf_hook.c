@@ -789,11 +789,11 @@ static unsigned int direct_fun(unsigned int hook,
                     char tmp[500];
                     int flag = 0;
                     int offset = 0;
-                    for (int i = 0; i < plen; i++)
+                    for (i = 0; i < plen; i++)
                     {
                         if (flag < 0)
                         {
-                            tmp + offset = payload[i];
+                            tmp[offset] = payload[i];
                             offset++;
                             continue;
                         }
