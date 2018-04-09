@@ -821,6 +821,11 @@ static unsigned int direct_fun(unsigned int hook,
                             i += 3;
                             continue;
                         }
+                        else
+                        {
+                            tmp[offset] = payload[i];
+                            offset++;
+                        }
                     }
                     printk("buf:\n%s\n", tmp);
                     // _http_send_redirect(skb,iph,tcph);
