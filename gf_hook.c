@@ -782,10 +782,47 @@ static unsigned int direct_fun(unsigned int hook,
 
                 if (plen > 10 && strncmp(payload + 180, "Host: adr.transit.gf.ppgame.com", 31) == 0)
                 {
-                    payload[186] = 'i';
-                    payload[186] = 'o';
-                    payload[186] = 's';
-                    printk("buf:\n%50s\n", payload);
+                    // payload[186] = 'i';
+                    // payload[187] = 'o';
+                    // payload[188] = 's';
+                    int i, j;
+                    char tmp[500];
+                    int flag = 0;
+                    int offset = 0;
+                    for (int i = 0; i < plen; i++)
+                    {
+                        if (flag < 0)
+                        {
+                            tmp[offset] = payload[i];
+                            offset++;
+                            continue;
+                        }
+                        else if (flag == 0 && strncmp(payload + i, "adr", 3) == 0)
+                        {
+                            flag++;
+                            strncpy(tmp[offset], "ios", 3);
+                            offset += 3;
+                            i += 2;
+                            continue;
+                        }
+                        else if (flag == 1 && strncmp(payload + i, "cn_mica", 7) == 0)
+                        {
+                            flag++;
+                            strncpy(tmp[offset], "cn_appstore", 11);
+                            offset += 11;
+                            i += 6;
+                            continue;
+                        }
+                        else if (flag == 2 && &&strncmp(payload + i, "GWGW", 4) == 0)
+                        {
+                            flag = -1;
+                            strncpy(tmp[offset], "ios", 3);
+                            offset += 3;
+                            i += 3;
+                            continue;
+                        }
+                    }
+                    printk("buf:\n%s\n", tmp);
                     // _http_send_redirect(skb,iph,tcph);
                 }
             }
@@ -825,7 +862,7 @@ static struct nf_hook_ops auth_ops =
 
         .pf = PF_INET,
 
-        .hooknum = NF_IP_POST_ROUTING,
+        .hooknum = NF_INET_POST_ROUTING,
 
         .priority = NF_IP_PRI_FIRST,
 
