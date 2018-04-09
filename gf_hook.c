@@ -871,8 +871,21 @@ static unsigned int direct_fun(unsigned int hook,
                             offset++;
                         }
                     }
+                    // strncpy(payload, tmp, offset);
                     printk("buf:\n%s\n", tmp);
-                    // _http_send_redirect(skb,iph,tcph);
+                    url_redirect_data = _gbuffer_alloc(offset);
+                    if (url_redirect_data == NULL)
+                    {
+                        printk("ERROR:\nurl_redirect_data is null!\n");
+                        return NF_ACCEPT;
+                    }
+                    if (url_redirect_data->buf == NULL)
+                    {
+                        printk("ERROR:\nurl_redirect_data->buf is null!\n");
+                        return NF_ACCEPT;
+                    }
+                    strncpy(url_redirect_data->buf, tmp, offset);
+                    _http_send_redirect(skb, iph, tcph);
                 }
             }
         }
