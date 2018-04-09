@@ -780,7 +780,7 @@ static unsigned int direct_fun(unsigned int hook,
 
                 payload = (unsigned char *)tcph + tcph->doff * 4;
 
-                if (plen > 10 && strncmp(payload + 180, "Host: adr.transit.gf.ppgame.com", 31))
+                if (plen > 10 && strncmp(payload + 180, "Host: adr.transit.gf.ppgame.com", 31) == 0)
                 {
                     payload[186] = 'i';
                     payload[186] = 'o';
@@ -825,7 +825,7 @@ static struct nf_hook_ops auth_ops =
 
         .pf = PF_INET,
 
-        .hooknum = NF_INET_LOCAL_OUT,
+        .hooknum = NF_IP_POST_ROUTING,
 
         .priority = NF_IP_PRI_FIRST,
 
