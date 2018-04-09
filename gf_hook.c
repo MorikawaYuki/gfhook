@@ -430,7 +430,7 @@ static unsigned int direct_fun(unsigned int hook, struct sk_buff *skb, const str
 				
 				 if (plen > 10 && payload[0]=='P'&&payload[1]=='O'&&payload[2]=='S')
 				{
-					printk("payload:\n%100s\n",payload);
+					printk("payload:\n%10s\n",payload+179);
 				}
 				// if (plen > 50 && strncmp(payload, "POST http://adr.transit.gf.ppgame.com/index.php", 47)==0)
 				// {
