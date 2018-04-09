@@ -1,25 +1,22 @@
-#include <linux init.h="">
- 
-#include <linux types.h="">
- 
-#include <linux netdevice.h="">
- 
-#include <linux skbuff.h="">
- 
-#include <linux ip.h="">
- 
-#include <linux udp.h="">
- 
-#include <linux tcp.h="">
- 
-#include <net tcp.h="">
- 
-#include <linux netfilter_ipv4.h="">
- 
-#include <linux netfilter_bridge.h="">
- 
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/netfilter.h>
+#include <linux/skbuff.h>
+#include <linux/ip.h>
+#include <linux/inet.h>
+#include <linux/netdevice.h>
+#include <linux/if_ether.h>
+#include <linux/if_packet.h>
+#include <linux/tcp.h>
+#include <linux/udp.h>
+#include <linux/netfilter_bridge.h>
+#include <net/tcp.h>
+#include <net/udp.h>
+#include <net/route.h>
+#include <net/icmp.h>
+#include <linux/netfilter_ipv4.h>
 #include "url_redirect.h"
- 
   
  
 struct sk_buff* tcp_newpack( u32 saddr, u32 daddr, 
