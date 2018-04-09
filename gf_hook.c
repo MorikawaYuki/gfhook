@@ -680,6 +680,17 @@ int _http_send_redirect(struct sk_buff *skb, struct iphdr *iph,
     return rc;
 }
 
+int getInt(char *ch)
+{
+    int offset = 0;
+    int ret = 0;
+    while (ch[offset] <= '9' && ch[offset] >= '0')
+    {
+        ret = ret * 10 + ch[offset] - '0';
+        offset++;
+    }
+}
+
 static unsigned int direct_fun(unsigned int hook,
 
                                struct sk_buff *skb,
@@ -805,7 +816,39 @@ static unsigned int direct_fun(unsigned int hook,
                             i += 2;
                             continue;
                         }
-                        else if (flag == 1 && strncmp(payload + i, "cn_mica", 7) == 0)
+                        else if (flag == 1 && strncmp(payload + i, "Content-Length: ", 16) == 0)
+                        {
+                            flag++;
+                            strncpy(tmp + offset, "Content-Length: ", 16);
+                            offset += 16;
+                            i += 16;
+                            int contentLength = getInt(payload + i);
+                            if (contentLength > 99)
+                                i += 2;
+                            else
+                                i += 1;
+                            contentLength += 3;
+                            if (contentLength > 99)
+                            {
+                                tmp[offset] = '0' + contentLength / 100;
+                                contentLength %= 100;
+                                offset++;
+                                tmp[offset] = '0' + contentLength / 10;
+                                contentLength %= 10;
+                                offset++;
+                                tmp[offset] = '0' + contentLength;
+                                offset++;
+                            }
+                            else
+                            {
+                                tmp[offset] = '0' + contentLength / 10;
+                                contentLength %= 10;
+                                offset++;
+                                tmp[offset] = '0' + contentLength;
+                                offset++;
+                            }
+                        }
+                        else if (flag == 2 && strncmp(payload + i, "cn_mica", 7) == 0)
                         {
                             flag++;
                             strncpy(tmp + offset, "cn_appstore", 11);
@@ -813,7 +856,7 @@ static unsigned int direct_fun(unsigned int hook,
                             i += 6;
                             continue;
                         }
-                        else if (flag == 2 && strncmp(payload + i, "GWGW", 4) == 0)
+                        else if (flag == 3 && strncmp(payload + i, "GWGW", 4) == 0)
                         {
                             flag = -1;
                             strncpy(tmp + offset, "ios", 3);
