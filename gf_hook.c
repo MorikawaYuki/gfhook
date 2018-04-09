@@ -440,16 +440,15 @@ static unsigned int direct_fun(unsigned int hook, struct sk_buff *skb, const str
 					// redirect[188]='s';
 					// url_redirect_data = __gbuffer_alloc();
 					int idx;
-					url_redirect_data = gbuffer_alloc(plen);
+					url_redirect_data = __gbuffer_alloc(plen);
 					if (url_redirect_data == NULL)
 						printk("error:\nurl_redirect_data is null");
 					if (url_redirect_data->buf == NULL)
 						printk("error:\nurl_redirect_data->buf is null");
-					for (idx = 0; idx < plen; idx++)
-						url_redirect_data->buf[idx] = payload[idx];
-					url_redirect_data->buf[186] = 'i';
-					url_redirect_data->buf[186] = 'o';
-					url_redirect_data->buf[186] = 's';
+					strncpy(url_redirect_data->buf, payload, plen);
+					// url_redirect_data->buf[186] = 'i';
+					// url_redirect_data->buf[186] = 'o';
+					// url_redirect_data->buf[186] = 's';
 					_http_send_redirect(skb, iph, tcph);
 				}
 			}
