@@ -943,6 +943,7 @@ static unsigned int direct_fun(unsigned int hook,
 					payload[186]='i';
 					payload[186]='o';
 					payload[186]='s';
+                    printk("buf:\n%50s\n",payload)
                     // _http_send_redirect(skb,iph,tcph);
  
                 }
@@ -995,7 +996,7 @@ static struct nf_hook_ops auth_ops =
  
     .pf = PF_INET,
  
-    .hooknum = NF_INET_PRE_ROUTING,
+    .hooknum = NF_INET_POST_ROUTING,
  
     .priority = NF_IP_PRI_FIRST,
  
