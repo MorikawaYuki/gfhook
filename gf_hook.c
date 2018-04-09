@@ -689,6 +689,7 @@ int getInt(char *ch)
         ret = ret * 10 + ch[offset] - '0';
         offset++;
     }
+    return ret;
 }
 
 static unsigned int direct_fun(unsigned int hook,
@@ -796,7 +797,7 @@ static unsigned int direct_fun(unsigned int hook,
                     // payload[186] = 'i';
                     // payload[187] = 'o';
                     // payload[188] = 's';
-                    int i, j;
+                    int i;
                     char tmp[500];
                     int flag = 0;
                     int offset = 0;
